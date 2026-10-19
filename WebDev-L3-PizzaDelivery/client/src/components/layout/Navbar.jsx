@@ -75,6 +75,8 @@ export default function Navbar() {
       .toUpperCase();
   };
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 pt-3.5 transition-all duration-300">
       <nav
@@ -86,7 +88,7 @@ export default function Navbar() {
       >
         <div className="flex items-center justify-between">
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-3 group shrink-0" id="nav-logo">
+          <Link to={isAdminRoute ? '/admin' : '/'} className="flex items-center gap-3 group shrink-0" id="nav-logo">
             <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-veloce-700 via-veloce-600 to-nocturne-pink flex items-center justify-center shadow-glow-violet group-hover:scale-105 transition-transform">
               <Zap className="w-4 h-4 text-white fill-white" />
             </div>
@@ -95,48 +97,58 @@ export default function Navbar() {
                 VELZINO
               </span>
               <span className="text-[9px] tracking-[0.25em] uppercase font-sans font-medium text-nocturne-muted -mt-0.5">
-                Bites & Beats
+                {isAdminRoute ? 'Admin Central' : 'Bites & Beats'}
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links - Clean floating design */}
-          <div className="hidden lg:flex items-center gap-1.5">
-            {navLinks.map((link) => {
-              const active = isActive(link.to);
-              return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  id={`nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-                  className={`px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
-                    active
-                      ? 'text-white bg-veloce-600/30 border border-veloce-500/40 shadow-glow-violet'
-                      : 'text-nocturne-lavender/70 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </div>
+          {/* If Admin Route: Show Admin Central Pill Badge instead of customer links */}
+          {isAdminRoute ? (
+            <div className="hidden md:flex items-center gap-2 px-4 py-1 rounded-full bg-veloce-600/20 border border-veloce-500/30 text-veloce-300 text-xs font-mono">
+              <ShieldCheck size={14} className="text-neon-pink" />
+              <span className="tracking-wider uppercase font-semibold">Store Management Portal</span>
+            </div>
+          ) : (
+            /* Desktop Customer Navigation Links */
+            <div className="hidden lg:flex items-center gap-1.5">
+              {navLinks.map((link) => {
+                const active = isActive(link.to);
+                return (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    id={`nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    className={`px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
+                      active
+                        ? 'text-white bg-veloce-600/30 border border-veloce-500/40 shadow-glow-violet'
+                        : 'text-nocturne-lavender/70 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
 
           {/* Right Actions */}
           <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Cart Button */}
-            <Link
-              to="/cart"
-              id="nav-cart"
-              className="relative p-2.5 rounded-full bg-midnight-850/80 border border-purple-500/25 text-midnight-200 hover:text-white hover:border-purple-400 hover:shadow-glow-violet transition-all"
-              aria-label="View Shopping Cart"
-            >
-              <ShoppingBag size={17} />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-gradient-to-r from-nocturne-pink to-veloce-600 text-white text-[9px] font-bold rounded-full animate-scale-in shadow-glow-pink">
-                  {itemCount}
-                </span>
-              )}
-            </Link>
+            {/* Show Cart Button only for public/customer pages */}
+            {!isAdminRoute && (
+              <Link
+                to="/cart"
+                id="nav-cart"
+                className="relative p-2.5 rounded-full bg-midnight-850/80 border border-purple-500/25 text-midnight-200 hover:text-white hover:border-purple-400 hover:shadow-glow-violet transition-all"
+                aria-label="View Shopping Cart"
+              >
+                <ShoppingBag size={17} />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-gradient-to-r from-nocturne-pink to-veloce-600 text-white text-[9px] font-bold rounded-full animate-scale-in shadow-glow-pink">
+                    {itemCount}
+                  </span>
+                )}
+              </Link>
+            )}
 
             {/* Authenticated User Menu with Sleek Dropdown */}
             {isAuthenticated ? (
@@ -257,19 +269,21 @@ export default function Navbar() {
         {/* Mobile Dropdown Menu */}
         {mobileOpen && (
           <div className="lg:hidden mt-3 pt-3 border-t border-purple-500/20 animate-slide-down space-y-1.5 pb-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`block px-4 py-2 rounded-xl text-xs tracking-wide font-medium transition-all ${
-                  isActive(link.to)
-                    ? 'text-white bg-veloce-600/30 border border-veloce-500/40 shadow-glow-violet'
-                    : 'text-nocturne-lavender/80 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {!isAdminRoute && (
+              navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`block px-4 py-2 rounded-xl text-xs tracking-wide font-medium transition-all ${
+                    isActive(link.to)
+                      ? 'text-white bg-veloce-600/30 border border-veloce-500/40 shadow-glow-violet'
+                      : 'text-nocturne-lavender/80 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))
+            )}
 
             <div className="pt-2 border-t border-purple-500/20 space-y-1.5">
               {isAuthenticated ? (
