@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #6035d0 #09041a;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #09041a;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: #6035d0;
+    border-radius: 9999px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+    background-color: #09041a;
+    background-image: 
+      radial-gradient(circle at 18% 18%, rgba(139, 92, 246, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 82% 22%, rgba(236, 72, 153, 0.12) 0%, transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 55%),
+      radial-gradient(circle at 75% 85%, rgba(168, 85, 247, 0.1) 0%, transparent 45%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #ffffff;
+  }
+
+  ::selection {
+    background-color: rgba(168, 85, 247, 0.4);
+    color: #ffffff;
+  }
+}
+
+@layer components {
+  /* Nocturne Cyber Glass Cards */
+  .cyber-card {
+    @apply bg-midnight-900/75 backdrop-blur-xl border border-purple-500/20 rounded-2xl 
+           transition-all duration-300 shadow-cyber-card;
+  }
+
+  .cyber-card-interactive {
+    @apply cyber-card hover:border-purple-400/40 hover:bg-midnight-850/85 hover:shadow-glow-violet;
+  }
+
+  .cyber-card-active {
+    @apply bg-midnight-850/90 backdrop-blur-2xl border border-purple-400/60 
+           shadow-glow-violet rounded-2xl;
+  }
+
+  /* Legacy aliases for backward compatibility */
+  .glass-card {
+    @apply cyber-card;
+  }
+
+  .glass-card-light {
+    @apply bg-white/5 backdrop-blur-xl border border-purple-500/15 rounded-2xl;
+  }
+
+  /* Nocturne Pill Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-gradient-to-r from-veloce-700 via-veloce-600 to-veloce-500
+           text-white font-medium font-sans tracking-wide rounded-full
+           hover:brightness-110 active:scale-[0.98] transition-all duration-200
+           shadow-glow-violet disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-midnight-850/80 text-nocturne-lavender font-medium rounded-full
+           border border-purple-500/25 hover:bg-midnight-800 hover:border-purple-400/50 hover:text-white
+           active:scale-[0.98] transition-all duration-200 shadow-sm
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5
+           text-midnight-300 font-medium rounded-full
+           hover:bg-purple-500/15 hover:text-white
+           active:scale-[0.98] transition-all duration-200;
+  }
+
+  .btn-neon {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-gradient-to-r from-neon-pink to-veloce-500 text-white font-semibold
+           rounded-full hover:brightness-110 active:scale-[0.98] transition-all duration-200
+           shadow-glow-pink;
+  }
+
+  /* Form Inputs */
+  .input-field {
+    @apply w-full px-4 py-3 bg-midnight-950/80 border border-purple-500/25 
+           rounded-xl text-white placeholder-midnight-400 font-sans
+           focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30
+           transition-all duration-200;
+  }
+
+  /* Badges & Nocturne Pills */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium tracking-wide;
+  }
+
+  .badge-success {
+    @apply badge bg-emerald-500/15 text-emerald-300 border border-emerald-500/30;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-500/15 text-amber-300 border border-amber-500/30;
+  }
+
+  .badge-danger {
+    @apply badge bg-neon-pink/15 text-neon-pink border border-neon-pink/30;
+  }
+
+  .badge-info {
+    @apply badge bg-cyber-cyan/15 text-cyber-cyan border border-cyber-cyan/30;
+  }
+
+  .badge-violet {
+    @apply badge bg-veloce-600/20 text-veloce-200 border border-purple-500/30;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-5xl font-display font-bold tracking-tight text-white;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-midnight-800/60 rounded-xl;
+  }
+
+  /* Nocturne HUD/Pill */
+  .hud-pill {
+    @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-sans
+           bg-midnight-900/85 border border-purple-500/20 text-midnight-200 backdrop-blur-md;
+  }
+
+  /* 3D-styled visual canvas disk */
+  .pizza-disk {
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.8),
+      0 0 35px rgba(139, 92, 246, 0.25),
+      inset 0 2px 10px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-nocturne-lavender to-veloce-300;
+  }
+
+  .text-gradient-purple {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-veloce-300 via-veloce-400 to-neon-pink;
+  }
+
+  .text-gradient-cyan {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-cyan to-veloce-400;
+  }
+
+  .text-gradient-warm {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-electric via-pizza-500 to-neon-pink;
+  }
+
+  .border-gradient-glow {
+    border-image: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(236, 72, 153, 0.4)) 1;
+  }
+}
